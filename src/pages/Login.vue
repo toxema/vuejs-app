@@ -2,13 +2,13 @@
   <div>
     <form>
       <div class="form-group">
-        <label for="exampleInputEmail1">Email address</label>
+        <label for="username">Username</label>
         <input
-          type="email"
+          type="username"
           class="form-control"
-          id="exampleInputEmail1"
+          id="username"
           aria-describedby="emailHelp"
-          placeholder="Enter email"
+          placeholder="Enter username"
         />
         <small
           id="emailHelp"
