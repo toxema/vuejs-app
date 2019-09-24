@@ -10,59 +10,36 @@
         </div>
         <div class="col-lg-4 text-right">
           <button @click="get()" class="btn btn-success">GET ALL</button>
-          <button @click="showLog()" class="btn btn-danger ml-1">HISTORY</button>
+          <button @click="login()" class="btn btn-danger ml-1">LOGIN</button>
         </div>
       </div>
-      <div class="row bg-light py-2 shadow-sm my-2">
-        <!--  Table Verisi 
-        <tanktable v-bind:data="data"/>
-        -->
-        <table class="table">
-          <thead class="thead-dark">
-            <tr>
-              <th scope="col">#Dev ID</th>
-              <th scope="col">Name</th>
-              <th scope="col">Tank 1</th>
-              <th scope="col">Tank 2</th>
-              <th scope="col">Firm</th>
-              <th scope="col">Last Update</th>
-              <th scope="col">Data</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(tank,index) in tanks" v-bind:key="tank.uid">
-              <th scope="row">#{{index}}</th>
-              <td>{{tank.name}}</td>
-              <td class="text-danger">
-                <h3>%{{tank.tank1}}</h3>
-              </td>
-              <td class="text-danger">
-                <h3>%{{tank.tank2}}</h3>
-              </td>
-              <td>{{tank.firm}}</td>
-              <td>{{tank.last_update}}</td>
-              <td class="text-right">
-                <button @click="showLog()" class="btn btn-danger ml-1">LOG</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+
+      <tanklist v-if="tanklistgoster" />
+      <Login v-if="logingoster" />
     </div>
   </div>
 </template>
 
 <script>
 import axios from "axios";
-
+import List from "./pages/List.vue";
+import Login from "./pages/Login.vue";
 export default {
+  components: {
+    tanklist: List,
+    Login
+  },
   data() {
     return {
-      tanks: []
+      tanks: [],
+      logingoster: false,
+      tanklistgoster: true
     };
   },
   methods: {
     get() {
+      this.tanklistgoster = true;
+      this.logingoster = false;
       axios
         .get("http://rezonansmuhendislik.com/webcloud/servis.php?cmd=getAll")
         .then(res => {
@@ -70,8 +47,9 @@ export default {
           this.tanks = res.data;
         });
     },
-    showLog() {
-      console.log("get All Tank Logs");
+    login() {
+      this.tanklistgoster = false;
+      this.logingoster = true;
     }
   },
   mounted() {
